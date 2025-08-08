@@ -1,23 +1,7 @@
 # Домашнее задание к занятию 6 «Создание собственных модулей» - Мельник Юрий Александрович
 
 ## Подготовка к выполнению
-
-1. Создайте пустой публичный репозиторий в своём любом проекте: `my_own_collection`.
-2. Скачайте репозиторий Ansible: `git clone https://github.com/ansible/ansible.git` по любому, удобному вам пути.
-3. Зайдите в директорию Ansible: `cd ansible`,
-   Создайте виртуальное окружение: `python3 -m venv venv`.
-   Активируйте виртуальное окружение: `. venv/bin/activate`. 
-    ![рисунок 1](https://github.com/ysatii/ansible-hw6/blob/main/img/img1.jpg)
-    ![рисунок 2](https://github.com/ysatii/ansible-hw6/blob/main/img/img2.jpg)
-
-4. Дальнейшие действия производятся только в виртуальном окружении.
-6. Установите зависимости `pip install -r requirements.txt`.
-7. Запустите настройку окружения `. hacking/env-setup`.
-8. Если все шаги прошли успешно — выйдите из виртуального окружения `deactivate`.
-9. Ваше окружение настроено. Чтобы запустить его, нужно находиться в директории `ansible` и выполнить конструкцию `. venv/bin/activate && . hacking/env-setup`.
-
-## Выполнение подготовки к работе
-1. Создь пустой публичный репозиторий `my_own_collection`. - https://github.com/ysatii/my_own_collection
+1. Создайте пустой публичный репозиторий `my_own_collection`. - https://github.com/ysatii/my_own_collection
 2. Скачайте репозиторий Ansible: `git clone https://github.com/ansible/ansible.git` по любому, удобному вам пути.
 3. Зайдите в директорию Ansible: `cd ansible`.
 4. Создайте виртуальное окружение: `python3 -m venv venv`.
@@ -26,6 +10,29 @@
 7. Запустите настройку окружения `. hacking/env-setup`.
 8. Если все шаги прошли успешно — выйдите из виртуального окружения `deactivate`.
 9. Ваше окружение настроено. Чтобы запустить его, нужно находиться в директории `ansible` и выполнить конструкцию `. venv/bin/activate && . hacking/env-setup`.
+
+
+## Выполнение подготовки к работе
+
+1. Создайте пустой публичный репозиторий в своём любом проекте: `my_own_collection`.
+2. Скачайте репозиторий Ansible: `git clone https://github.com/ansible/ansible.git` по любому, удобному вам пути.
+3. Зайдите в директорию Ansible: `cd ansible`,
+   Создайте виртуальное окружение: `python3 -m venv venv`.
+   Активируйте виртуальное окружение: `. venv/bin/activate`. 
+   
+
+   Дальнейшие действия производятся только в виртуальном окружении.
+   Установите зависимости `pip install -r requirements.txt`.
+   Запустите настройку окружения `. hacking/env-setup`.
+   Если все шаги прошли успешно — выйдите из виртуального окружения `deactivate`.
+   ![рисунок 1](https://github.com/ysatii/ansible-hw6/blob/main/img/img1.jpg)
+   ![рисунок 2](https://github.com/ysatii/ansible-hw6/blob/main/img/img2.jpg)
+
+4. Окружение настроено. Чтобы запустить его, нужно находиться в директории `ansible` и выполнить конструкцию `. venv/bin/activate && . hacking/env-setup`.
+
+
+
+
 
 ## Основная часть
 
