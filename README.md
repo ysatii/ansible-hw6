@@ -387,16 +387,95 @@ deactivate
 ```
 
 **Шаг 8.** Инициализируйте новую collection: `ansible-galaxy collection init my_own_namespace.yandex_cloud_elk`.
+готово 
 
 **Шаг 9.** В эту collection перенесите свой module в соответствующую директорию.
 
+#   ~/my_ansible_module/my_own_module.py
+ ```
+ mkdir -p ~/my_own_namespace/yandex_cloud_elk/plugins/modules
+ mv ~/my_ansible_module/my_own_module.py \
+ ~/my_own_namespace/yandex_cloud_elk/plugins/modules/
+```
+
 **Шаг 10.** Single task playbook преобразуйте в single task role и перенесите в collection. У role должны быть default всех параметров module.
+```
+ansible-galaxy init ~/my_own_namespace/yandex_cloud_elk/roles/file_write
+```
+ответ - Role /home/lamer/my_own_namespace/yandex_cloud_elk/roles/file_write was created successfully
+
+# defaults (параметры модуля по умолчанию)
+```
+cat > ~/my_own_namespace/yandex_cloud_elk/roles/file_write/defaults/main.yml <<'YAML'
+path: "/tmp/hello_from_role.txt"
+content: "Hello from role!"
+YAML
+```
+
+# tasks (вызов твоего модуля по FQCN)
+```
+cat > ~/my_own_namespace/yandex_cloud_elk/roles/file_write/tasks/main.yml <<'YAML'
+- name: Write file via custom module
+  my_own_namespace.yandex_cloud_elk.my_own_module:
+    path: "{{ path }}"
+    content: "{{ content }}"
+YAML
+```
+
 
 **Шаг 11.** Создайте playbook для использования этой role.
+cat > ~/my_own_namespace/yandex_cloud_elk/site.yml <<'YAML'
+- name: Use role from collection
+  hosts: localhost
+  connection: local
+  gather_facts: false
+  roles:
+    - my_own_namespace.yandex_cloud_elk.file_write
+YAML
+
 
 **Шаг 12.** Заполните всю документацию по collection, выложите в свой репозиторий, поставьте тег `1.0.0` на этот коммит.
+```
+# краткий README
+cat > ~/my_own_namespace/yandex_cloud_elk/README.md <<'MD'
+# yandex_cloud_elk collection
+
+Contains:
+- module: my_own_module (creates/updates a text file)
+- role: file_write (wraps module with defaults)
+- playbook: site.yml (demo)
+
+## Role defaults
+- path: target file path (default: /tmp/hello_from_role.txt)
+- content: file content (default: "Hello from role!")
+
+## Example
+ansible-playbook site.yml
+MD
+```
+
+ проставим версию 1.0.0 в galaxy.yml
+sed -i 's/^version:.*$/version: "1.0.0"/' ~/my_own_namespace/yandex_cloud_elk/galaxy.yml
+
+cd ~/my_own_namespace/yandex_cloud_elk
+git add .
+git commit -m "Initial collection 1.0.0 (module + role + docs)"
+git tag 1.0.0
+git remote add origin git@github.com:ysatii/my_own_collection.git
+git push -u origin master
+git push origin 1.0.0
+
+https://github.com/ysatii/my_own_collection/tags
 
 **Шаг 13.** Создайте .tar.gz этой collection: `ansible-galaxy collection build` в корневой директории collection.
+cd ~/my_own_namespace/yandex_cloud_elk
+ansible-galaxy collection build
+ появится ./my_own_namespace-yandex_cloud_elk-1.0.0.tar.gz
+
+ ответ 
+ Created collection for my_own_namespace.yandex_cloud_elk at /home/lamer/my_own_namespace/yandex_cloud_elk/my_own_namespace-yandex_cloud_elk-1.0.0.tar.gz
+
+![рисунок 8](https://github.com/ysatii/ansible-hw6/blob/main/img/img8.jpg)
 
 **Шаг 14.** Создайте ещё одну директорию любого наименования, перенесите туда single task playbook и архив c collection.
 
