@@ -378,10 +378,13 @@ ansible-playbook -M ~/my_ansible_module test.yml
 ```
 файл  создается 
 ![рисунок 6](https://github.com/ysatii/ansible-hw6/blob/main/img/img6.jpg)
-
+![рисунок 7](https://github.com/ysatii/ansible-hw6/blob/main/img/img7.jpg)
 
 
 **Шаг 7.** Выйдите из виртуального окружения.
+```
+deactivate
+```
 
 **Шаг 8.** Инициализируйте новую collection: `ansible-galaxy collection init my_own_namespace.yandex_cloud_elk`.
 
