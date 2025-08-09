@@ -391,7 +391,7 @@ deactivate
 
 **Шаг 9.** В эту collection перенесите свой module в соответствующую директорию.
 
-#   ~/my_ansible_module/my_own_module.py
+   ~/my_ansible_module/my_own_module.py
  ```
  mkdir -p ~/my_own_namespace/yandex_cloud_elk/plugins/modules
  mv ~/my_ansible_module/my_own_module.py \
@@ -404,7 +404,7 @@ ansible-galaxy init ~/my_own_namespace/yandex_cloud_elk/roles/file_write
 ```
 ответ - Role /home/lamer/my_own_namespace/yandex_cloud_elk/roles/file_write was created successfully
 
-# defaults (параметры модуля по умолчанию)
+ defaults (параметры модуля по умолчанию)
 ```
 cat > ~/my_own_namespace/yandex_cloud_elk/roles/file_write/defaults/main.yml <<'YAML'
 path: "/tmp/hello_from_role.txt"
@@ -412,7 +412,7 @@ content: "Hello from role!"
 YAML
 ```
 
-# tasks (вызов твоего модуля по FQCN)
+ tasks (вызов модуля по FQCN)
 ```
 cat > ~/my_own_namespace/yandex_cloud_elk/roles/file_write/tasks/main.yml <<'YAML'
 - name: Write file via custom module
@@ -500,4 +500,6 @@ ansible-playbook site.yml -e "path=/tmp/file_from_installed_role.txt content='Hi
 **Шаг 17.** В ответ необходимо прислать ссылки на collection и tar.gz архив, а также скриншоты выполнения пунктов 4, 6, 15 и 16.
 
 сама коллекция выставлена в виде отдельного репозитория https://github.com/ysatii/my_own_collection/tree/master 
-https://github.com/ysatii/my_own_collection/tags  - сам тегг
+сам тегг 1.0.0 https://github.com/ysatii/my_own_collection/tags  - 
+ссылка  на архив с ролью https://github.com/ysatii/ansible-hw6/blob/main/my_own_namespace-yandex_cloud_elk-1.0.0.tar.gz
+ссылка на пайплан с использованием роли https://github.com/ysatii/ansible-hw6/blob/main/site.yml  
