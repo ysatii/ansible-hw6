@@ -499,7 +499,7 @@ ansible-playbook site.yml -e "path=/tmp/file_from_installed_role.txt content='Hi
 
 **Шаг 17.** В ответ необходимо прислать ссылки на collection и tar.gz архив, а также скриншоты выполнения пунктов 4, 6, 15 и 16.
 
-сама коллекция выставлена в виде отдельного репозитория https://github.com/ysatii/my_own_collection/tree/master 
-сам тегг 1.0.0 https://github.com/ysatii/my_own_collection/tags  - 
-ссылка  на архив с ролью https://github.com/ysatii/ansible-hw6/blob/main/my_own_namespace-yandex_cloud_elk-1.0.0.tar.gz
-ссылка на пайплан с использованием роли https://github.com/ysatii/ansible-hw6/blob/main/site.yml  
+сама коллекция выставлена в виде отдельного репозитория https://github.com/ysatii/my_own_collection/tree/master   
+сам тегг 1.0.0 https://github.com/ysatii/my_own_collection/tags   
+ссылка  на архив с ролью https://github.com/ysatii/ansible-hw6/blob/main/my_own_namespace-yandex_cloud_elk-1.0.0.tar.gz  
+ссылка на пайплан с использованием роли https://github.com/ysatii/ansible-hw6/blob/main/site.yml   
