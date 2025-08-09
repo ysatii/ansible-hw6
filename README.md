@@ -181,12 +181,205 @@ if __name__ == '__main__':
 Или возьмите это наполнение [из статьи](https://docs.ansible.com/ansible/latest/dev_guide/developing_modules_general.html#creating-a-module).
 
 **Шаг 3.** Заполните файл в соответствии с требованиями Ansible так, чтобы он выполнял основную задачу: module должен создавать текстовый файл на удалённом хосте по пути, определённом в параметре `path`, с содержимым, определённым в параметре `content`.
+```
+#!/usr/bin/python
+
+# Copyright: (c) 2025, lamer lamer <lamer@example.com>
+# GNU General Public License v3.0+
+from __future__ import (absolute_import, division, print_function)
+__metaclass__ = type
+
+import os
+from ansible.module_utils.basic import AnsibleModule
+
+DOCUMENTATION = r'''
+---
+module: my_own_module
+
+short_description: Create a file with specified content
+
+version_added: "1.0.0"
+
+description: >
+    This module creates a text file at a given path on the remote host with the specified content.
+    If the file already exists with the same content, nothing is changed.
+
+options:
+    path:
+        description:
+            - Path to the file to be created.
+        required: true
+        type: str
+    content:
+        description:
+            - Content to be written to the file.
+        required: true
+        type: str
+
+author:
+    - lamer lamer (@yourGitHubHandle)
+'''
+
+EXAMPLES = r'''
+- name: Create a file with custom content
+  my_own_namespace.yandex_cloud_elk.my_own_module:
+    path: /tmp/hello.txt
+    content: "Hello, Ansible!"
+'''
+
+RETURN = r'''
+path:
+    description: The path where the file was created or verified.
+    type: str
+    returned: always
+    sample: "/tmp/hello.txt"
+changed:
+    description: Whether the file was changed.
+    type: bool
+    returned: always
+    sample: true
+message:
+    description: Status message.
+    type: str
+    returned: always
+    sample: "File created"
+'''
+
+
+def run_module():
+    module_args = dict(
+        path=dict(type='str', required=True),
+        content=dict(type='str', required=True)
+    )
+
+    result = dict(
+        changed=False,
+        path='',
+        message=''
+    )
+
+    module = AnsibleModule(
+        argument_spec=module_args,
+        supports_check_mode=True
+    )
+
+    path = module.params['path']
+    content = module.params['content']
+    result['path'] = path
+
+    if module.check_mode:
+        if not os.path.exists(path):
+            result['changed'] = True
+        else:
+            with open(path, 'r') as f:
+                existing = f.read()
+            if existing != content:
+                result['changed'] = True
+        module.exit_json(**result)
+
+    try:
+        changed = True
+        if os.path.exists(path):
+            with open(path, 'r') as f:
+                existing = f.read()
+            if existing == content:
+                changed = False
+
+        if changed:
+            with open(path, 'w') as f:
+                f.write(content)
+
+        result['changed'] = changed
+        result['message'] = "File created or updated" if changed else "No changes made"
+    except Exception as e:
+        module.fail_json(msg=str(e), **result)
+
+    module.exit_json(**result)
+
+
+def main():
+    run_module()
+
+
+if __name__ == '__main__':
+    main()
+
+```
+
+
 
 **Шаг 4.** Проверьте module на исполняемость локально.
+получаем ошибку что нужен питон 3.12
+'''
+ansible localhost -m my_own_module -a "path=/tmp/test.txt content='Hello'" -M ~/my_ansible_module -c local
+ERROR: Ansible requires Python 3.12 or newer on the controller. Current version: 3.8.10 (default, Mar 18 2025, 20:04:55) [GCC 9.4.0]
+'''
+исправим ошибку 
+
+- Выйти из текущего окружения **deactivate**
+
+- Перейти в папку с Ansible  **cd ~/Рабочий\ стол/ansible-hw6/module/ansible**
+
+- Удалить старое окружение (оно на Python 3.8)  **rm -rf venv**
+
+- Создать новое на Python 3.12 **python3.12 -m venv venv**
+
+- Активировать окружение **. venv/bin/activate** 
+
+- Установить зависимости 
+  **pip install --upgrade pip**
+  **pip install -r requirements.txt**
+
+- Настроить Ansible **. hacking/env-setup** 
+
+- Проверить версию Python и Ansible
+  **python --version**
+  **ansible --version**
+
+сам файл необходимо переместить в папку  **/home/lamer/Рабочий стол/ansible-hw6/module/ansible/lib/ansible/modules/my_own_module.py**
+
+выполним команду 
+
+**ansible localhost -m my_own_module   -a "path=/tmp/test.txt content='Hello'"   -M ~/my_ansible_module -c local**
+![рисунок 3](https://github.com/ysatii/ansible-hw6/blob/main/img/img3.jpg)
+
+файл успешно содал по указанному пути с указанным содержимым
+![рисунок 4](https://github.com/ysatii/ansible-hw6/blob/main/img/img4.jpg)
+
 
 **Шаг 5.** Напишите single task playbook и используйте module в нём.
+листинг test.yml
+```
+- name: Test custom module
+  hosts: localhost
+  connection: local
+  gather_facts: false
+  tasks:
+    - name: Create a file using custom module
+      my_own_module:
+        path: /tmp/test.txt
+        content: "Hello"
+```
+выполним команду 
+
+```
+ansible-playbook -M ~/my_ansible_module test.yml
+```
+файл  создается 
+![рисунок 5](https://github.com/ysatii/ansible-hw6/blob/main/img/img5.jpg)
+
+
 
 **Шаг 6.** Проверьте через playbook на идемпотентность.
+повторно запустим 
+
+```
+ansible-playbook -M ~/my_ansible_module test.yml
+```
+файл  создается 
+![рисунок 6](https://github.com/ysatii/ansible-hw6/blob/main/img/img6.jpg)
+
+
 
 **Шаг 7.** Выйдите из виртуального окружения.
 
