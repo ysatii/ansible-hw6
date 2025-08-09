@@ -478,26 +478,26 @@ ansible-galaxy collection build
 ![рисунок 8](https://github.com/ysatii/ansible-hw6/blob/main/img/img8.jpg)
 
 **Шаг 14.** Создайте ещё одну директорию любого наименования, перенесите туда single task playbook и архив c collection.
+```
+mkdir -p ~/collection_test && cd ~/collection_test
+cp ~/my_own_namespace/yandex_cloud_elk/my_own_namespace-yandex_cloud_elk-1.0.0.tar.gz .
+cp ~/my_own_namespace/yandex_cloud_elk/site.yml .
+```
 
 **Шаг 15.** Установите collection из локального архива: `ansible-galaxy collection install <archivename>.tar.gz`.
+![рисунок 9](https://github.com/ysatii/ansible-hw6/blob/main/img/img9.jpg)
+
 
 **Шаг 16.** Запустите playbook, убедитесь, что он работает.
 
+ansible-playbook site.yml
+ansible-playbook site.yml  # второй раз — должно быть changed=0
+
+ (опционально) переопределить значения:
+ansible-playbook site.yml -e "path=/tmp/file_from_installed_role.txt content='Hi from installed collection!'"
+![рисунок 10](https://github.com/ysatii/ansible-hw6/blob/main/img/img10.jpg)
+
 **Шаг 17.** В ответ необходимо прислать ссылки на collection и tar.gz архив, а также скриншоты выполнения пунктов 4, 6, 15 и 16.
 
-## Необязательная часть
-
-1. Реализуйте свой модуль для создания хостов в Yandex Cloud.
-2. Модуль может и должен иметь зависимость от `yc`, основной функционал: создание ВМ с нужным сайзингом на основе нужной ОС. Дополнительные модули по созданию кластеров ClickHouse, MySQL и прочего реализовывать не надо, достаточно простейшего создания ВМ.
-3. Модуль может формировать динамическое inventory, но эта часть не является обязательной, достаточно, чтобы он делал хосты с указанной спецификацией в YAML.
-4. Протестируйте модуль на идемпотентность, исполнимость. При успехе добавьте этот модуль в свою коллекцию.
-5. Измените playbook так, чтобы он умел создавать инфраструктуру под inventory, а после устанавливал весь ваш стек Observability на нужные хосты и настраивал его.
-6. В итоге ваша коллекция обязательно должна содержать: clickhouse-role (если есть своя), lighthouse-role, vector-role, два модуля: my_own_module и модуль управления Yandex Cloud хостами и playbook, который демонстрирует создание Observability стека.
-
----
-
-### Как оформить решение задания
-
-Выполненное домашнее задание пришлите в виде ссылки на .md-файл в вашем репозитории.
-
----
+сама коллекция выставлена в виде отдельного репозитория https://github.com/ysatii/my_own_collection/tree/master 
+https://github.com/ysatii/my_own_collection/tags  - сам тегг

@@ -1,0 +1,6 @@
+- name: Use role from collection
+  hosts: localhost
+  connection: local
+  gather_facts: false
+  roles:
+    - my_own_namespace.yandex_cloud_elk.file_write
